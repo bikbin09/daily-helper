@@ -74,4 +74,15 @@ let expr='';const keys=['C','⌫','%','÷','7','8','9','×','4','5','6','−','1
 function calcPress(k){if(k==='C')expr='';else if(k==='⌫')expr=expr.slice(0,-1);else if(k==='±'){if(expr.startsWith('-'))expr=expr.slice(1);else expr='-'+expr}else if(k==='='){try{let safe=expr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');if(!/^[0-9+\-*/%.() ]+$/.test(safe))throw 0;let val=Function('"use strict";return ('+safe+')')();if(!Number.isFinite(val))throw 0;expr=String(Math.round((val+Number.EPSILON)*1e10)/1e10)}catch{expr='';$('display').textContent=tr('Invalid calculation','হিসাবটি সঠিক নয়');return}}else expr+=k;renderCalc()}
 renderCalc();applyLang();showPanel(null);
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .catch(function (error) {
+        console.error("Offline setup failed:", error);
+      });
+  });
+}
+  </script>
 </body></html>
